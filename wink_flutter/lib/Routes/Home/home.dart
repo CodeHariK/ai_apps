@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wink_flutter/Providers/router.dart';
 import 'package:moonspace/router/shell_data.dart';
 import 'package:moonspace/router/tab_shell.dart';
+import 'package:wink_flutter/Routes/Home/notifications.dart';
 
 part 'home.g.dart';
 
@@ -17,6 +18,27 @@ class Home {
   routes: [
     TypedGoRoute<SettingsRoute>(path: AppRouter.settings),
     TypedGoRoute<AccountRoute>(path: AppRouter.account),
+
+    TypedStatefulShellRoute<NotificationShell>(
+      branches: [
+        TypedStatefulShellBranch<NotificationShellBranchData>(
+          routes: <TypedRoute<RouteData>>[
+            TypedGoRoute<NotificationsRoute>(
+              name: AppRouter.notification,
+              path: AppRouter.notification,
+            ),
+          ],
+        ),
+        TypedStatefulShellBranch<NotificationShellBranchData>(
+          routes: <TypedRoute<RouteData>>[
+            TypedGoRoute<SubscriptionsRoute>(
+              name: AppRouter.subscription,
+              path: AppRouter.subscription,
+            ),
+          ],
+        ),
+      ],
+    ),
 
     TypedStatefulShellRoute<HomeShellRoute>(
       branches: [
@@ -241,6 +263,24 @@ class HomeShellRoute extends StatefulShellRouteData {
     ),
   ];
 
+  static List<IconButton> actions(BuildContext context) => [
+    IconButton(
+      onPressed: () {
+        NotificationsRoute().go(context);
+      },
+      icon: const Icon(
+        Icons.notifications_none_outlined,
+        semanticLabel: 'Open notifications',
+      ),
+    ),
+    IconButton(
+      onPressed: () {
+        SettingsRoute().go(context);
+      },
+      icon: const Icon(Icons.settings, semanticLabel: 'Open settings'),
+    ),
+  ];
+
   static Widget $navigatorContainerBuilder(
     BuildContext context,
     StatefulNavigationShell navigationShell,
@@ -254,6 +294,7 @@ class HomeShellRoute extends StatefulShellRouteData {
           showTabbar: constraints.maxWidth > 600,
           showNavigationBar: false,
           showNavigationRail: constraints.maxWidth <= 600,
+          actions: actions(context),
           children: children,
         );
       },

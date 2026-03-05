@@ -39,6 +39,12 @@ class AppRouter {
   /*---*/
   static const String profile = 'profile';
 
+  /*-----------------Notification-----------------*/
+  /*-*/
+  static const String notification = 'notification';
+  /*-*/
+  static const String subscription = 'subscription';
+
   /*-----------------Special-----------------*/
   static const String onboard = '/onboard';
   static const String about = '/about';

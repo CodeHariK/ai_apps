@@ -15,6 +15,30 @@ RouteBase get $exitRoute => GoRouteData.$route(
     GoRouteData.$route(path: 'settings', factory: $SettingsRoute._fromState),
     GoRouteData.$route(path: 'account', factory: $AccountRoute._fromState),
     StatefulShellRouteData.$route(
+      navigatorContainerBuilder: NotificationShell.$navigatorContainerBuilder,
+      factory: $NotificationShellExtension._fromState,
+      branches: [
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: 'notification',
+              name: 'notification',
+              factory: $NotificationsRoute._fromState,
+            ),
+          ],
+        ),
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: 'subscription',
+              name: 'subscription',
+              factory: $SubscriptionsRoute._fromState,
+            ),
+          ],
+        ),
+      ],
+    ),
+    StatefulShellRouteData.$route(
       navigatorContainerBuilder: HomeShellRoute.$navigatorContainerBuilder,
       factory: $HomeShellRouteExtension._fromState,
       branches: [
@@ -107,6 +131,53 @@ mixin $AccountRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/account');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationShellExtension on NotificationShell {
+  static NotificationShell _fromState(GoRouterState state) =>
+      const NotificationShell();
+}
+
+mixin $NotificationsRoute on GoRouteData {
+  static NotificationsRoute _fromState(GoRouterState state) =>
+      NotificationsRoute();
+
+  @override
+  String get location => GoRouteData.$location('/notification');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $SubscriptionsRoute on GoRouteData {
+  static SubscriptionsRoute _fromState(GoRouterState state) =>
+      SubscriptionsRoute();
+
+  @override
+  String get location => GoRouteData.$location('/subscription');
 
   @override
   void go(BuildContext context) => context.go(location);
